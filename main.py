@@ -34,18 +34,23 @@ order_queue = deque() #for processing orders
 
 #populate orders
 for item in range(genItems):
-
     fruit = random.choice(items)
-    quantity = random.randint(10)
+    quantity = random.randint(1, 10)
     timestamp = int(time.time()) + item
-    #clean the item into an acceptable order
+    
     new_order = createOrder(item + 1, fruit, quantity, timestamp)
-    #input into orders
-
+    
+    orders.append(new_order)
     #input into a hash map
+    if fruit not in product_orders:
+        product_orders[fruit] = []
+    else: #if fruit already there
+        product_orders[fruit].append(new_order)
 
     #import into the deque
-    pass
+    order_queue.append(new_order)
+
+    print("Order " + str(item + 1) + ": " + str(quantity) + " " + str(fruit) + " added to the list.")
 
 for item in range(genItems):
     #process deque
