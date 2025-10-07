@@ -1,4 +1,4 @@
-class Orders:
+class order:
     def __init__(self, id, product_name, quantity, timestamp):
         self.id = id
         self.product_name = product_name
