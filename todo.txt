@@ -1,4 +1,0 @@
-
-include customer info in the class order
-include details on the order in the class order
-
