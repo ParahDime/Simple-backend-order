@@ -3,15 +3,15 @@ from collections import deque
 import time
 #importing any classes
 from order import order
+from product import Product
 
-
+kHOTSELLER = 6 #can be imported, or a % of stock
 
 #function for normalising string names
 def normaliseString(fruit):
     fruit = fruit.lower()
-    #check for whitespace
-    #remove any duplicates
-    return fruit
+    cleaned = fruit.replace(" ", "")
+    return cleaned
 
 #function for creating orders
 def createOrder(item, fruit, quantity, timestamp):
@@ -29,9 +29,6 @@ def totalQuant(product_orders):
         totals[product] = {"total": total_qty, "average": avg}
 
     return totals
-
-def isHotSeller(product_orders):
-    pass
 
 #merge sort algorithm
 def merge_sort(items):
@@ -61,7 +58,22 @@ def merge(left, right):
 
 #initialise variables
 items = ['apple', 'banana', 'orange', 'grape', 'pepper', 'plum', 'strawberry', 'pineapple', 'apricot']
+
+inventory = {
+    "apple": Product("apple", 0.50, 120),
+    "banana": Product("banana", 0.40, 80),
+    "orange": Product("orange", 0.35, 55),
+    "grape": Product("grape", 0.20, 180),
+    "plum": Product("plum", 0.70, 40),
+    "pepper": Product("pepper", 0.40, 90),
+    "strawberry": Product("strawberry", 0.25, 100),
+    "pineapple": Product("pineapple", 2.50, 60),
+    "raspberry": Product("raspberry", 0.20, 90),
+    "apricot": Product("apricot", 0.60, 75)
+
+}
 genItems = random.randint(5, 25)
+
 orders = [] #ledger of orders
 product_orders = {} #hashmap, summary
 order_queue = deque() #for processing orders
@@ -90,7 +102,11 @@ del items
 for item in range(genItems):
     print(f"Processing order: {order_queue[item].id}")
     orderProcessed = orderProcessed + 1
-    #order_queue.popleft()
+    
+    ###
+    ### Data manipulation here
+    ###
+    ###
     pass
 
 totals = totalQuant(product_orders) #find the highest amount of each item
@@ -103,23 +119,19 @@ del new_totals
 print("Top Products by quantity:")
 for key, value in list(totals.items())[:3]:
     print(f"{key}: {totals[key]['total']} ")
-    pass
 
-hotSells = isHotSeller(product_orders)
-print("Hot sellers:")
-for x in range(3):
-    #print top 3 sellers
-    pass
-del hotSells
-
+print("Hot sellers today:")
+for key, value in list(totals.items()):
+    if kHOTSELLER <= totals[key]['average']:
+        print(f"{key}s!")
+        pass
+    else:
+        pass
 print("Average order quantity over assigned period:")
 for key in totals:
     print(f"{key}: {totals[key]['average']} ")
-    pass
 
 del totals
-
 #account for all items processed
 print("Total orders processed: " + str(orderProcessed))
-
 del orderProcessed
