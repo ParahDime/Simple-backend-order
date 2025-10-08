@@ -15,7 +15,7 @@ def normaliseString(fruit):
 
 #function for creating orders
 def createOrder(item, fruit, quantity, timestamp):
-    fruit = normaliseString(fruit)
+    #fruit = normaliseString(fruit)
     newItem = order(item, fruit, quantity, timestamp)
     return newItem
 
@@ -57,8 +57,6 @@ def merge(left, right):
 
 
 #initialise variables
-items = ['apple', 'banana', 'orange', 'grape', 'pepper', 'plum', 'strawberry', 'pineapple', 'apricot']
-
 inventory = {
     "apple": Product("apple", 0.50, 120),
     "banana": Product("banana", 0.40, 80),
@@ -70,7 +68,6 @@ inventory = {
     "pineapple": Product("pineapple", 2.50, 60),
     "raspberry": Product("raspberry", 0.20, 90),
     "apricot": Product("apricot", 0.60, 75)
-
 }
 genItems = random.randint(5, 25)
 
@@ -80,7 +77,7 @@ order_queue = deque() #for processing orders
 orderProcessed = 0
 
 for item in range(genItems):
-    fruit = random.choice(items)
+    fruit = random.choice(list(inventory.keys()))
     quantity = random.randint(1, 10)
     timestamp = int(time.time()) + item
     
@@ -97,7 +94,10 @@ for item in range(genItems):
 
     print("Order " + str(item + 1) + ": " + str(quantity) + " " + str(fruit) + " added to the list.")
 
-del items
+totals = totalQuant(product_orders) #find the highest amount of each item
+items_list = list(totals.items())
+new_totals = merge_sort(items_list)#sort the list from high to low
+totals = dict(new_totals)
 
 for item in range(genItems):
     print(f"Processing order: {order_queue[item].id}")
@@ -107,12 +107,9 @@ for item in range(genItems):
     ### Data manipulation here
     ###
     ###
+    #  Can handle input for enough items in stock to fulfill order
+    #  handle price collating (totalling up price)
     pass
-
-totals = totalQuant(product_orders) #find the highest amount of each item
-items_list = list(totals.items())
-new_totals = merge_sort(items_list)#sort the list from high to low
-totals = dict(new_totals)
 
 del items_list
 del new_totals
@@ -129,7 +126,7 @@ for key, value in list(totals.items()):
         pass
 print("Average order quantity over assigned period:")
 for key in totals:
-    print(f"{key}: {totals[key]['average']} ")
+    print(f"{key}: {totals[key]['average']:.1f} ")
 
 del totals
 #account for all items processed
